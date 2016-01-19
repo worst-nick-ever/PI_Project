@@ -1,0 +1,127 @@
+﻿@model PersonalWebsite.Areas.Admin.Models.CVViewModel
+
+@using DatabaseEntities.CV;
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit CV</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.PersonId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => Model.PersonId, (IEnumerable<SelectListItem>)ViewBag.PeopleList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => Model.PersonId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>@Html.ActionLink("Create new Person", "Create", "People") | @Html.ActionLink("Edit Person", "Edit", new { controller = "People", Id = Model.PersonId})</div>
+        <div>
+            <h4>Work experience</h4>
+            <div class="text-danger">
+                @if (!ViewContext.ViewData.ModelState.IsValid)
+                {
+                    foreach (ModelState ms in ViewContext.ViewData.ModelState.Values)
+                    {
+                        if (ms.Errors != null && ms.Errors.Count > 0)
+                        {
+                            for (int i = 0; i < ms.Errors.Count; i++)
+                            {
+                                <div>@ms.Errors.ElementAt(i).ErrorMessage</div>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div id="workExperience">
+                @for (int i = 0; i < Model.WorkEntries.Count; i++)
+                {
+                    <div class="element">
+                        <input type="hidden" name="workEntries[@i].id" value="@Model.WorkEntries.ElementAt(i).Id" />
+                        <input type="hidden" name="workEntries[@i].CVId" value="@Model.WorkEntries.ElementAt(i).CVId" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Workplace</label>
+                            <input type="text" name="workEntries[@i].workplace.name" class="form-control" value="@Model.WorkEntries.ElementAt(i).Workplace.Name" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">From Date</label>
+                            <input type="text" name="workEntries[@i].fromDate" class="form-control datepicker" value="@Model.WorkEntries.ElementAt(i).FromDate.ToString("MM/dd/yyyy")" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">To Date</label>
+                            <input type="text" name="workEntries[@i].toDate" class="form-control datepicker" value="@Model.WorkEntries.ElementAt(i).ToDate.ToString("MM/dd/yyyy")" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Position</label>
+                            <input type="text" name="workEntries[@i].position" class="form-control" value="@Model.WorkEntries.ElementAt(i).Position" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Responsibilities</label>
+                            <textarea name="workEntries[@i].responsibilities" class="form-control">@Model.WorkEntries.ElementAt(i).Responsibilities</textarea>
+                        </div>
+                        <button class="colModRem btn btn-default">Remove</button>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Util.js")
+    <script>
+        $(function () {
+            $('#workExperience').collectionModifier({
+                name: 'workEntries',
+                fields: [
+                    {
+                        label: 'Workplace',
+                        inputName: 'workplace.name',
+                        required: true
+                    },
+                    {
+                        label: 'From Date',
+                        inputName: 'fromDate',
+                        inputType: 'date',
+                        required: true
+                    },
+                    {
+                        label: 'To Date',
+                        inputName: 'toDate',
+                        inputType: 'date',
+                        required: true
+                    },
+                    {
+                        label: 'Position',
+                        inputName: 'position',
+                        required: true
+                    },
+                    {
+                        label: 'Responsibilities',
+                        inputName: 'responsibilities',
+                        inputType: 'textarea',
+                        required: true
+                    }]
+            });
+
+            $('.datepicker').datepicker({ dateFormat: 'mm/dd/yy' });
+        });
+    </script>
+}

@@ -1,0 +1,77 @@
+﻿@model DatabaseEntities.Personal.Contacts
+
+@{
+    ViewBag.Title = "Contacts";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        @Html.RouteLink("Edit", "Admin_default", new { action = "Edit", controller = "Contacts", id = Model.Id }, new { @class = "btn btn-primary btn-edit pull-right" })
+    </div>
+}
+
+<h2 class="page-title">Contacts</h2>
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(m => Model.Address)</dt>
+    <dd>@Html.DisplayFor(m => Model.Address)</dd>
+    <dt>Phone</dt>
+    <dd>@Model.Phone</dd>
+    <dt>E-Mail</dt>
+    <dd>@Model.Email</dd>
+    <dt>Skype</dt>
+    <dd>@Model.Skype</dd>
+    <dt>LinkedIn</dt>
+    <dd>@Model.Linkedin</dd>
+    <dt>Facebook</dt>
+    <dd>@Model.Facebook</dd>
+</dl>
+<div class="contact-form">
+    @using (Html.BeginForm("Message", "Guest", FormMethod.Post, new { id = "message-form"}))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="SenderEmail" class="control-label col-md-2">Email : </label>
+                <input id="SenderEmail" name="SenderEmail" class="form-control col-xs-12"/>
+            </div>
+            <div class="form-group">
+                <label for="About" class="control-label col-md-2">About : </label>
+                <input id="About" name="About" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="message" class="control-label col-md-2">Text : </label>
+                <textarea id="Text" name="Text" class="form-control"></textarea>
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <input id="sendMessage" type="submit" value="Send" class="btn btn-default"/>
+            </div>
+            <div id="result" class="col-md-offset-2 col-md-10"></div>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script>
+        $('#sendMessage').on('click', function (event) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Message", "Guest")',
+                data: $('#message-form').serialize(),
+                success: function (data, textStatus, jqXHR) {
+                    if (data.success) {
+                        $('#result').removeClass('text-danger').addClass('text-success').text(data.message);
+                    } else {
+                        $('#result').removeClass('text-success').addClass('text-danger').text(data.error);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#result').removeClass('text-success').addClass('text-danger').text(textStatus);
+                }
+            });
+            event.preventDefault();
+        })
+    </script>    
+}
+

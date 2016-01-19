@@ -1,0 +1,76 @@
+﻿@using DatabaseEntities.Others
+
+@model DatabaseEntities.Personal.Person
+
+@{
+    ViewBag.Title = "Places";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        @Html.RouteLink("Edit", "Admin_default", new { action = "Index", controller = "Places", Id = Model.Id }, new { @class = "btn btn-primary btn-edit pull-right" })
+    </div>
+}
+
+<h2 class="page-title">Places</h2>
+
+<div class="clearfix">
+    <div id="places" class="col-lg-6 col-xs-12">
+        <ul id="places-list" class="list-group nav nav-tabs">
+            @for (int i = 0; i < Model.Places.Count; i++)
+            {
+                <li class='list-group-item col-lg-12 col-xs-12 @(i == 0 ? "active" : "")' data-lat="@Model.Places.ElementAt(i).Latitude" + data-lng="@Model.Places.ElementAt(i).Longitude">
+                    <a data-toggle="tab" href='@("#place" + i)'>@Model.Places.ElementAt(i).Description</a>
+                </li>
+            }
+        </ul>
+        <div class="tab-content col-lg-12 hidden-sm hidden-xs">
+            @for (int i = 0; i < Model.Places.Count; i++)
+            {
+                <div id="@("place" + i)" class='col-lg-12 tab-pane fade @(i == 0 ? "in active" : "")'>
+                    <img src='@(Url.Content("~/Content/Uploads/" + @Model.Places.ElementAt(i).PhotoURL))' class="col-lg-12" />
+                </div>
+            }
+        </div>
+    </div>
+    <div id="map"></div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    @Scripts.Render("~/Scripts/Map.js")
+    <script>
+        $(function() {
+            var places = @Html.Raw(Json.Encode(Model.Places));
+            var latlngbounds = new google.maps.LatLngBounds();
+            places.forEach(function(p){
+                var latLng = new google.maps.LatLng({lat : p.Latitude, lng : p.Longitude});
+                latlngbounds.extend(latLng);
+                var marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    title : p.Description
+                });
+                var infowindow = new google.maps.InfoWindow({
+                    content: p.Description
+                });
+                marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+                map.panTo(latLng);
+            });
+            map.setCenter(latlngbounds.getCenter());
+            map.fitBounds(latlngbounds);
+            if (places.length == 1) {
+                var listener = google.maps.event.addListenerOnce(map, "idle", function() {
+                    if (map.getZoom() > 15) map.setZoom(15);
+                });
+            }
+
+            $('.list-group-item').on('click', function(event) {
+                map.setCenter(new google.maps.LatLng({lat : Number(this.dataset.lat), lng : Number(this.dataset.lng)}));
+            });
+        });
+    </script>
+}

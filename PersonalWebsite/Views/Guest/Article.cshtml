@@ -1,0 +1,31 @@
+﻿@model DatabaseEntities.Others.Article
+
+@using DatabaseEntities.Others;
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+@if (User.IsInRole("Admin"))
+{
+    @Html.RouteLink("Edit", "Admin_default", new { action = "Edit", controller = "Articles", id = Model.Id }, new { @class = "btn btn-primary btn-edit pull-right" })
+
+}
+
+<div>
+    <h2 class="page-title">@Html.DisplayFor(title => Model.Title)</h2>
+    <h3 class="page-title">@("By " + Model.Author.FirstName + " " + Model.Author.LastName)</h3>
+    <hr />
+    @foreach (Paragraph p in Model.Paragraphs)
+    {
+        <div class="paragraph col-lg-12 break">
+            @if (p.Title != null)
+            {
+                <h4>@Html.DisplayFor(title => p.Title)</h4>
+            }
+            <div>
+                @Html.DisplayFor(text => p.Text)
+            </div>
+        </div>
+    }
+</div>

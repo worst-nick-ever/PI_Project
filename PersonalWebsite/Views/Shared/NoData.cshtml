@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "NoData";
+}
+
+<h1>Sorry!</h1>
+<h2>No data was found to process you request.</h2>
+
+@if (User.IsInRole("Admin"))
+{
+    <div>@Html.RouteLink("Change Site Settings", "Admin_default", new { action = "Edit", controller = "SiteSettings" })</div>
+    if (ViewBag.DataType != null)
+    {
+        <div>@Html.RouteLink("Add data", "Admin_default", new { action = "Create", controller = ViewBag.DataType })</div>
+    }
+}

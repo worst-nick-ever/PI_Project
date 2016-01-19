@@ -1,0 +1,204 @@
+﻿@model PersonalWebsite.Areas.Admin.Models.PersonViewModel
+
+@using DatabaseEntities.Personal;
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Person</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.Gender, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            <h4>Contacts</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ContactsId)
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Skype, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Skype, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Skype, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Facebook, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Facebook, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Facebook, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Linkedin, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Linkedin, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Linkedin, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div>
+            <h4>Photo</h4>
+            <div class="col-xs-12">
+                <img src="@Url.Content("~/Content/Uploads/" + Model.PhotoFileName)" class="col-xs-12 m-b-10" />
+                <input type="file" id="upload" name="upload" class="form-control" />
+            </div>
+        </div>
+        <div>
+            <h4>Foreign Languages</h4>
+            <div id="foreignLanguages">
+                @for (int i = 0; i < Model.ForeignLanguages.Count; i++)
+                {
+                    <div class="element">
+                        <input type="hidden" name="foreignLanguages[@i].id" value="@Model.ForeignLanguages.ElementAt(i).Id" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Name</label>
+                            <input type="text" name="foreignLanguages[@i].name" class="form-control" value="@Model.ForeignLanguages.ElementAt(i).Name" />
+                        </div>
+                        <button class="colModRem btn btn-default">Remove</button>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <h4>Other Abilities</h4>
+            <div id="otherAbilities">
+                @for (int i = 0; i < Model.OtherAbilities.Count; i++)
+                {
+                    <div class="element">
+                        <input type="hidden" name="otherAbilities[@i].id" value="@Model.OtherAbilities.ElementAt(i).Id" />
+                        <input type="hidden" name="otherAbilities[@i].PersonId" value="@Model.OtherAbilities.ElementAt(i).PersonId" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Name</label>
+                            <input type="text" name="otherAbilities[@i].name" class="form-control" value="@Model.OtherAbilities.ElementAt(i).Name" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Description</label>
+                            <textarea name="otherAbilities[@i].description" class="form-control">@Model.OtherAbilities.ElementAt(i).Description</textarea>
+                        </div>
+                        <button class="colModRem btn btn-default">Remove</button>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Util.js")
+    <script>
+        $(function () {
+            $('#foreignLanguages').collectionModifier({
+                name: 'foreignLanguages',
+                fields: [
+                 {
+                     label: 'Name',
+                     inputName: 'name',
+                     required: true
+                 }
+                ]
+            });
+            $('#otherAbilities').collectionModifier({
+                name: 'otherAbilities',
+                fields: [
+                     {
+                         label: 'Name',
+                         inputName: 'name',
+                         required: true
+                     },
+                     {
+                         label: 'Description',
+                         inputName: 'description',
+                         inputType: 'textarea',
+                         required: true
+                     }]
+            });
+
+            $('#BirthDate').datepicker({
+                defaultDate: Date.now(),
+                dateFormat: 'mm/dd/yy'
+            });
+        });
+    </script>
+}

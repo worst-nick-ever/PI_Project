@@ -1,0 +1,26 @@
+﻿@using DatabaseEntities.Others
+
+@model PersonalWebsite.Models.BlogViewModel
+
+@{
+    ViewBag.Title = "Blog";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        @Html.RouteLink("Edit", "Admin_default", new { action = "Index", controller = "Articles", Id = Model.AuthorId }, new { @class = "btn btn-primary btn-edit pull-right" })
+    </div>
+}
+
+<h2 class="page-title">Blog</h2>
+
+<div>
+    <ul>
+        @foreach (Article article in Model.Articles)
+        {
+            <li>@Html.ActionLink(article.Title, "Article", new { controller = "Guest", id = article.Id }) by @(article.Author.FirstName + " " + article.Author.LastName)</li>
+        }
+    </ul>
+</div>
+

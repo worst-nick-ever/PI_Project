@@ -1,0 +1,43 @@
+﻿@model DatabaseEntities.Personal.Person
+
+@using DatabaseEntities.Personal;
+
+@{
+    ViewBag.Title = "Interests";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        @Html.RouteLink("Edit", "Admin_default", new { action = "Index", controller = "Interests", Id = Model.Id }, new { @class = "btn btn-primary btn-edit pull-right" })
+    </div>
+}
+
+<h2 class="page-title">Interests</h2>
+<hr class="thick-line" />
+
+@foreach (Interest interest in Model.Interests)
+{
+    <div class="clearfix">
+        <div>
+            <h3 class="col-lg-12 col-xs-12">@Html.DisplayFor(m => interest.Name)</h3>
+            <div class="break col-lg-12 col-xs-12 paragraph">
+                @if (interest.Photo != null)
+                {
+                    <img src="@Url.Content("~/Content/Uploads/" + interest.Photo)" class="pull-right col-lg-6 col-xs-6" />
+                }
+                @Html.DisplayFor(m => interest.Desctiption)
+            </div>
+        </div>
+        @if (interest.VideoURL != null)
+        {
+            <iframe width="560"
+                    height="315"
+                    src="@interest.VideoURL"
+                    frameborder="0"
+                    class="col-xs-12 media"
+                    allowfullscreen></iframe>
+        }
+    </div>
+    <hr class="thick-line" />
+}

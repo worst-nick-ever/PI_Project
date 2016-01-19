@@ -1,0 +1,93 @@
+﻿@model DatabaseEntities.CV.CV
+
+@using DatabaseEntities.CV
+@using DatabaseEntities.Personal
+
+@{
+    ViewBag.Title = "CV";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="pull-right">
+        @Html.RouteLink("Edit", "Admin_default", new { action = "Edit", controller = "CVs", id = Model.Id }, new { @class = "btn btn-primary btn-edit" })
+        @Html.RouteLink("Create New", "Admin_default", new { action = "Create", controller = "CVs", id = Model.Id }, new { @class = "btn btn-primary btn-edit" })
+    </div>
+}
+
+<div>
+    <h2 class="page-title">Curriculum Vitae</h2>
+
+</div>
+<div class="clearfix col-lg-12">
+    <img src="@Url.Content("~/Content/Uploads/" + Model.Person.PhotoFileName)" class="cv-img pull-right col-lg-6" />
+    <div class="col-lg-6">
+        <div>
+            <h3>Personal Information</h3>
+            <dl class="dl-horizontal">
+                <dt>@Html.DisplayNameFor(model => Model.Person.FirstName)</dt>
+                <dd>@Html.DisplayFor(model => Model.Person.FirstName)</dd>
+                <dt>@Html.DisplayNameFor(model => Model.Person.MiddleName)</dt>
+                <dd>@Html.DisplayFor(model => Model.Person.MiddleName)</dd>
+                <dt>@Html.DisplayNameFor(model => Model.Person.LastName)</dt>
+                <dd>@Html.DisplayFor(model => Model.Person.LastName)</dd>
+                <dt>@Html.DisplayNameFor(model => Model.Person.Contacts.Address)</dt>
+                <dd>@Html.DisplayFor(model => Model.Person.Contacts.Address)</dd>
+                <dt>@Html.DisplayNameFor(model => Model.Person.Contacts.Phone)</dt>
+                <dd>@Html.DisplayFor(model => Model.Person.Contacts.Phone)</dd>
+                <dt>@Html.DisplayNameFor(model => Model.Person.Contacts.Email)</dt>
+                <dd>@Html.DisplayFor(model => Model.Person.Contacts.Email)</dd>
+                <dt>@Html.DisplayNameFor(model => Model.Person.BirthDate)</dt>
+                <dd>@Html.DisplayFor(model => Model.Person.BirthDate)</dd>
+                <dt>@Html.DisplayNameFor(model => Model.Person.Gender)</dt>
+                <dd>@Html.DisplayFor(model => Model.Person.Gender)</dd>
+            </dl>
+        </div>
+        <div>
+            <h3>Work Experience</h3>
+            <div>
+                @foreach (WorkEntry entry in @Model.WorkEntries)
+            {
+                    <div>
+                        <dl class="dl-horizontal">
+                            <dt>Period</dt>
+                            <dd>@Html.DisplayFor(m => entry.FromDate) - @Html.DisplayFor(m => entry.ToDate)</dd>
+                            <dt>Occupation or position held</dt>
+                            <dd>@Html.DisplayFor(m => entry.Position)</dd>
+                            <dt>Main activities and responsibilities</dt>
+                            <dd class="break">@Html.DisplayFor(m => entry.Responsibilities)</dd>
+                            <dt>Employer</dt>
+                            <dd>@Html.DisplayFor(m => entry.Workplace.Name)</dd>
+                        </dl>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <h3>Foreign Languages</h3>
+            <div>
+                @foreach (ForeignLanguage lang in @Model.Person.ForeignLanguages)
+            {
+                    <div>
+                        @Html.DisplayFor(m => lang.Name)
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <h3>Other Abilities</h3>
+            <dl class="dl-horizontal">
+                @foreach (Ability ability in @Model.Person.OtherAbilities)
+            {
+                    <dt>
+                        @Html.DisplayFor(m => ability.Name)
+                    </dt>
+                    <dd class="break">
+                        @Html.DisplayFor(m => ability.Description)
+                    </dd>
+                }
+            </dl>
+        </div>
+    </div>
+
+</div>

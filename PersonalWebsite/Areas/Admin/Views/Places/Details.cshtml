@@ -1,0 +1,68 @@
+﻿@model DatabaseEntities.Others.Place
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Place</h4>
+    <hr />
+    <dl class="dl-horizontal width-50">
+        <dt>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Longitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Latitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhotoURL)
+        </dt>
+
+        <dd>
+            <img src="@Url.Content("~/Content/Uploads/" + Model.PhotoURL)" style="width: 100%;" alt="No photo uploaded."/>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+    </dl>
+    <div id="map" class="width-50"></div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@section Scripts {
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    @Scripts.Render("~/Scripts/Map.js")
+    <script>
+        $(function () {
+            var placeLatLng = new google.maps.LatLng({lat : @Model.Latitude, lng : @Model.Longitude});
+            lastPinnedMarker = new google.maps.Marker({
+                position: placeLatLng,
+                map: map
+            });
+            map.panTo(placeLatLng);
+            map.setCenter(placeLatLng);
+            map.setZoom(15);
+        });
+    </script>
+}

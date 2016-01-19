@@ -1,0 +1,10 @@
+C:\Users\Petko\documents\visual studio 2015\Projects\PersonalWebsite\DatabaseEntities\bin\Debug\DatabaseEntities.dll.config
+C:\Users\Petko\documents\visual studio 2015\Projects\PersonalWebsite\DatabaseEntities\bin\Debug\DatabaseEntities.dll
+C:\Users\Petko\documents\visual studio 2015\Projects\PersonalWebsite\DatabaseEntities\bin\Debug\DatabaseEntities.pdb
+C:\Users\Petko\documents\visual studio 2015\Projects\PersonalWebsite\DatabaseEntities\bin\Debug\EntityFramework.dll
+C:\Users\Petko\documents\visual studio 2015\Projects\PersonalWebsite\DatabaseEntities\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Petko\documents\visual studio 2015\Projects\PersonalWebsite\DatabaseEntities\bin\Debug\EntityFramework.xml
+C:\Users\Petko\documents\visual studio 2015\Projects\PersonalWebsite\DatabaseEntities\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Petko\documents\visual studio 2015\Projects\PersonalWebsite\DatabaseEntities\obj\Debug\DatabaseEntities.dll
+C:\Users\Petko\documents\visual studio 2015\Projects\PersonalWebsite\DatabaseEntities\obj\Debug\DatabaseEntities.pdb
+C:\Users\Petko\documents\visual studio 2015\Projects\PersonalWebsite\DatabaseEntities\obj\Debug\DatabaseEntities.csprojResolveAssemblyReference.cache

@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DatabaseEntities.Personal;
+
+namespace DatabaseEntities.Others
+{
+    public class Article : PersistentEntity<int>
+    {
+        public Person Author { get; set; }
+        public string Title { get; set; }
+        public virtual ICollection<Paragraph> Paragraphs { get; set; }
+    }
+}

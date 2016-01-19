@@ -1,0 +1,41 @@
+﻿@model DatabaseEntities.Message.Message
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Message</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SenderEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.About)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.About)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to Admin Inbox", "Index")
+</p>

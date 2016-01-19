@@ -1,0 +1,28 @@
+﻿@model DatabaseEntities.Others.Article
+
+@using DatabaseEntities.Others;
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div>
+    <h2>@Html.DisplayFor(title => Model.Title)</h2>
+    <h3>@("By " + Model.Author.FirstName + " " + Model.Author.LastName)</h3>
+    <hr />
+    @foreach (Paragraph p in Model.Paragraphs)
+    {
+        <div class="paragraph col-lg-12 break">
+            @if (p.Title != null)
+            {
+                <h4>@Html.DisplayFor(title => p.Title)</h4>
+            }
+            <div>
+                @Html.DisplayFor(text => p.Text)
+            </div>
+        </div>
+    }
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+</p>

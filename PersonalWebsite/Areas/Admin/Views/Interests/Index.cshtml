@@ -1,0 +1,52 @@
+﻿@model IEnumerable<DatabaseEntities.Personal.Interest>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Interests@(ViewBag.PersonName != null ? " of " + ViewBag.PersonName : "")</h2>
+
+<p>
+    @Html.ActionLink("Add new interest", "Create")
+</p>
+<table class="table table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th class="hidden-xs">
+            @Html.DisplayNameFor(model => model.Desctiption)
+        </th>
+        <th class="hidden-xs">
+            @Html.DisplayNameFor(model => model.Photo)
+        </th>
+        <th class="hidden-xs">
+            @Html.DisplayNameFor(model => model.VideoURL)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td class="hidden-xs">
+                @(item.Desctiption.Length > 20 ? item.Desctiption.Substring(0, 20) + "..." : item.Desctiption)
+            </td>
+            <td class="hidden-xs col-lg-4 break">
+                <img src="@Url.Content("~/Content/Uploads/" + @item.Photo)" class="col-lg-12"/>
+            </td>
+            <td class="hidden-xs break">
+                @Html.DisplayFor(modelItem => item.VideoURL)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+
+    }
+
+</table>
