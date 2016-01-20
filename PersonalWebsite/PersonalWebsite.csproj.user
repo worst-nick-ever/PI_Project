@@ -14,8 +14,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-      if not exist "$(WebProjectOutputDir)\bin\Roslyn" md "$(WebProjectOutputDir)\bin\Roslyn"
-      start /MIN xcopy /s /y /R "$(OutDir)roslyn\*.*" "$(WebProjectOutputDir)\bin\Roslyn"
+      if not exist "$(WebProjectOutputDir)\bin\roslyn" md "$(WebProjectOutputDir)\bin\roslyn"
+      start /MIN xcopy /s /y /R "$(OutDir)roslyn\*.*" "$(WebProjectOutputDir)\bin\roslyn"
     </PostBuildEvent>
   </PropertyGroup>
   <ProjectExtensions>
