@@ -12,12 +12,6 @@
     <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
   </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-      if not exist "$(WebProjectOutputDir)\bin\roslyn" md "$(WebProjectOutputDir)\bin\roslyn"
-      start /MIN xcopy /s /y /R "$(OutDir)roslyn\*.*" "$(WebProjectOutputDir)\bin\roslyn"
-    </PostBuildEvent>
-  </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
@@ -44,3 +38,9 @@
     </VisualStudio>
   </ProjectExtensions>
 </Project>
+<PropertyGroup>
+    <PostBuildEvent>
+      if not exist "$(WebProjectOutputDir)\bin\roslyn" md "$(WebProjectOutputDir)\bin\roslyn"
+      start /MIN xcopy /s /y /R "$(OutDir)roslyn\*.*" "$(WebProjectOutputDir)\bin\roslyn"
+    </PostBuildEvent>
+  </PropertyGroup>
